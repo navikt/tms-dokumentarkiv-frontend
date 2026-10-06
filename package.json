@@ -24,7 +24,7 @@
     "@navikt/astro-logger": "1.0.0",
     "@navikt/ds-css": "8.8.0",
     "@navikt/ds-react": "8.8.0",
-    "@navikt/nav-dekoratoren-moduler": "3.2.3",
+    "@navikt/nav-dekoratoren-moduler": "4.5.0",
     "@navikt/oasis": "3.4.0",
     "astro": "7.1.6",
     "date-fns": "4.4.0",

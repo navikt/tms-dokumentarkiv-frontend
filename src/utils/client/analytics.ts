@@ -1,17 +1,19 @@
-import type { AmplitudeEvent } from "@navikt/nav-dekoratoren-moduler";
 import { getAnalyticsInstance } from "@navikt/nav-dekoratoren-moduler";
 
-type ExtendedAmplitudeEvent = AmplitudeEvent<"navigere", { kategori: string }>;
+type NavigereEvent = {
+  origin: string;
+  eventName: "navigere";
+  eventData: { komponent: string; kategori: string; lenketekst?: string };
+};
 
-const analyticsLogger =
-  getAnalyticsInstance<ExtendedAmplitudeEvent>("tms-dokumentarkiv");
+const analyticsLogger = getAnalyticsInstance("tms-dokumentarkiv");
 
 export const logEvent = async (
   komponent: string,
   kategori: string,
   lenketekst?: string,
 ) => {
-  await analyticsLogger("navigere", {
+  const event: NavigereEvent = {
     origin: "tms-dokumentarkiv",
     eventName: "navigere",
     eventData: {
@@ -19,5 +21,7 @@ export const logEvent = async (
       kategori: kategori,
       lenketekst: lenketekst,
     },
-  });
+  };
+
+  await analyticsLogger.custom("navigere", event);
 };
