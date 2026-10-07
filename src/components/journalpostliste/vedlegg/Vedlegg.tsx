@@ -3,7 +3,7 @@ import { text } from "@language/text";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { BodyShort, Button, Detail } from "@navikt/ds-react";
 import { dokumentUrl } from "@src/urls.client";
-import { logEvent } from "@utils/client/analytics";
+import { logLastNed } from "@utils/client/analytics";
 import { readableFileSize } from "@utils/readableFilesize";
 import { useState } from "react";
 import type { DokumentProps } from "../JournalpostInterfaces";
@@ -18,6 +18,7 @@ interface Props {
 interface VedleggslenkeProps {
   url: string;
   tittel: string;
+  filtype: string;
   filstorrelse: number;
   brukerHarTilgang: boolean;
 }
@@ -37,6 +38,7 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
     url,
     tittel,
     brukerHarTilgang,
+    filtype,
     filstorrelse,
   }: VedleggslenkeProps) => {
     const tittelMedPdfTag = tittel + ".pdf";
@@ -46,7 +48,14 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
         <a
           href={url}
           className={styles.vedlegg}
-          onClick={() => logEvent("Vedleggslenke", "Vedlegg")}
+          onClick={() =>
+            logLastNed({
+              komponent: "Vedleggslenke",
+              tittel: "Vedlegg",
+              type: filtype,
+              kontekst: "Vedlegg",
+            })
+          }
         >
           {tittelMedPdfTag}
         </a>
@@ -96,6 +105,7 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
               url={`${baseUrl}/${vedlegg.dokumentInfoId}`}
               tittel={vedlegg.tittel}
               brukerHarTilgang={vedlegg.brukerHarTilgang}
+              filtype={vedlegg.filtype}
               filstorrelse={vedlegg.filstorrelse}
               key={vedlegg.dokumentInfoId}
             />
@@ -115,6 +125,7 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
           url={`${baseUrl}/${vedlegg.dokumentInfoId}`}
           tittel={vedlegg.tittel}
           brukerHarTilgang={vedlegg.brukerHarTilgang}
+          filtype={vedlegg.filtype}
           filstorrelse={vedlegg.filstorrelse}
           key={vedlegg.dokumentInfoId}
         />

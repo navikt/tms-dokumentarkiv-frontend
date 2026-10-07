@@ -15,7 +15,7 @@ import {
   setIsValgtRepresentant,
   setIsValidatingJournalposter,
 } from "@store/store";
-import { logEvent } from "@utils/client/analytics";
+import { logCustomEvent, logNavigere } from "@utils/client/analytics";
 import { fetcher, postUser } from "@utils/client/api";
 import { type ChangeEvent, useEffect } from "react";
 import useSWR from "swr";
@@ -103,7 +103,14 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
           <span>
             <a
               href={digisosUrl}
-              onClick={() => logEvent("Lenke", "Sosialhjelp ingress")}
+              onClick={() =>
+                logNavigere({
+                  komponent: "Lenke",
+                  kategori: "Sosialhjelp ingress",
+                  lenketekst: text.sosialhjelpLenketekst["nb"],
+                  destinasjon: digisosUrl,
+                })
+              }
             >
               {text.sosialhjelpLenketekst[language]}
             </a>
@@ -143,7 +150,12 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
                 : fullmaktInfo?.representertIdent
             }
             onChange={handleSelectChange}
-            onClick={() => logEvent("Nedtrekksliste", "Representasjon")}
+            onClick={() =>
+              logCustomEvent("nedtrekksliste åpnet", {
+                komponentId: "Nedtrekksliste",
+                kontekst: "Representasjon",
+              })
+            }
             aria-controls="journalpostliste"
           >
             {fullmakter &&
@@ -157,11 +169,12 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
             href={pdlFullmaktUrl}
             className={styles.lenke}
             onClick={() =>
-              logEvent(
-                "Lenke",
-                "Digital fullmakt innsynslenke",
-                text.representasjonLenkeTekst["nb"],
-              )
+              logNavigere({
+                komponent: "Lenke",
+                kategori: "Digital fullmakt innsynslenke",
+                lenketekst: text.representasjonLenkeTekst["nb"],
+                destinasjon: pdlFullmaktUrl,
+              })
             }
           >
             {text.representasjonLenkeTekst[language]}
@@ -182,7 +195,14 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
             <span>
               <a
                 href={digisosUrl}
-                onClick={() => logEvent("Lenke", "Sosialhjelp ingress")}
+                onClick={() =>
+                  logNavigere({
+                    komponent: "Lenke",
+                    kategori: "Sosialhjelp ingress",
+                    lenketekst: text.sosialhjelpLenketekst["nb"],
+                    destinasjon: digisosUrl,
+                  })
+                }
               >
                 {text.sosialhjelpLenketekst[language]}
               </a>

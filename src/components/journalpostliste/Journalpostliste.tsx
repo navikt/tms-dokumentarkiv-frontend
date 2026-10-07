@@ -18,7 +18,7 @@ import {
   setSortingOrder,
   sortingOrderAtom,
 } from "@store/store";
-import { logEvent } from "@utils/client/analytics";
+import { logNedtrekkslisteValg } from "@utils/client/analytics";
 import { fetcher } from "@utils/client/api";
 import { type ChangeEvent, useEffect } from "react";
 import useSWRImmutable from "swr/immutable";
@@ -72,7 +72,10 @@ const Journalpostliste = ({ language }: Props) => {
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value.toString());
-    logEvent("Sorteringsrekkefolge", event.target.value.toString());
+    logNedtrekkslisteValg(
+      "Sorteringsrekkefolge",
+      event.target.value.toString(),
+    );
   };
 
   const filteredList = filteredJournalposter({

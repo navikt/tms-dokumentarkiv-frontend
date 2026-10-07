@@ -2,7 +2,7 @@ import type { Language } from "@language/language";
 import { text } from "@language/text";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import { digisosUrl } from "@src/urls.client";
-import { logEvent } from "@utils/client/analytics";
+import { logNavigere } from "@utils/client/analytics";
 import styles from "./Disclaimer.module.css";
 
 interface Props {
@@ -24,7 +24,14 @@ const Disclaimer = ({ language, showingRepresentantDocuments }: Props) => {
             <BodyLong>
               <a
                 href={digisosUrl}
-                onClick={() => logEvent("Lenke", "Sosialhjelp lenke")}
+                onClick={() =>
+                  logNavigere({
+                    komponent: "Lenke",
+                    kategori: "Sosialhjelp lenke",
+                    lenketekst: text.sosialhjelpLenketekst["nb"],
+                    destinasjon: digisosUrl,
+                  })
+                }
               >
                 {text.sosialhjelpLenketekst[language]}
               </a>

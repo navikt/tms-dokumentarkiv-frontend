@@ -8,7 +8,7 @@ import {
   showFiltersAtom,
   showVedtakFilterAtom,
 } from "@store/store";
-import { logEvent } from "@utils/client/analytics";
+import { logFiltervalg } from "@utils/client/analytics";
 import { useEffect, useState } from "react";
 import styles from "./Filters.module.css";
 
@@ -47,7 +47,7 @@ const Filters = ({ language, queryParam }: Props) => {
   const handleToggle = (value: string[]) => {
     setSakstemaFilters(value);
     setSelected(value);
-    logEvent("Filter", value[0]);
+    logFiltervalg(value[0]);
   };
   return (
     <div className={styles.container}>

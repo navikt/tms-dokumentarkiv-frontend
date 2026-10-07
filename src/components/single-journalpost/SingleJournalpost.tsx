@@ -6,7 +6,7 @@ import { EyeSlashIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { BodyShort, Detail, Heading } from "@navikt/ds-react";
 import { dokumentUrl, getJournalpostUrl } from "@src/urls.client";
 import { setIsError, setSingleJournalpostDisclaimerAtom } from "@store/store";
-import { logEvent } from "@utils/client/analytics";
+import { logLastNed } from "@utils/client/analytics";
 import { fetcher, NotFoundError } from "@utils/client/api";
 import { setAvsenderMottaker } from "@utils/client/setAvsenderMottaker";
 import { readableFileSize } from "@utils/readableFilesize";
@@ -124,7 +124,14 @@ const SingleJournalpost = ({
                 className={styles.link}
                 href={hovedDokumentUrl}
                 lang="nb"
-                onClick={() => logEvent("hoveddokument", journalpost.temanavn)}
+                onClick={() =>
+                  logLastNed({
+                    komponent: "hoveddokument",
+                    tittel: "Hoveddokument",
+                    type: journalpost.dokument.filtype,
+                    tema: journalpost.temanavn,
+                  })
+                }
               >
                 <BodyShort size="medium">
                   {"Åpne " + journalpost?.dokument.tittel.toLowerCase()}

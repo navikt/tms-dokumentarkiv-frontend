@@ -6,7 +6,7 @@ import {
   tilbakemeldingerUrl,
 } from "@src/urls";
 import { text } from "../../language/text";
-import { logEvent } from "../../utils/client/analytics";
+import { logNavigere } from "../../utils/client/analytics";
 import styles from "./NyttigOgVite.module.css";
 
 const NyttigOgVite = ({ language }: { language: Language }) => {
@@ -18,21 +18,42 @@ const NyttigOgVite = ({ language }: { language: Language }) => {
       <a
         href={saksbehandlingstiderUrl}
         className={styles.lenke}
-        onClick={() => logEvent("Lenke", "Lenkepanel", text.lenke1["nb"])}
+        onClick={() =>
+          logNavigere({
+            komponent: "Lenke",
+            kategori: "Lenkepanel",
+            lenketekst: text.lenke1["nb"],
+            destinasjon: saksbehandlingstiderUrl,
+          })
+        }
       >
         {text.lenke1[language]}
       </a>
       <a
         href={tilbakemeldingerUrl}
         className={styles.lenke}
-        onClick={() => logEvent("Lenke", "Lenkepanel", text.lenke2["nb"])}
+        onClick={() =>
+          logNavigere({
+            komponent: "Lenke",
+            kategori: "Lenkepanel",
+            lenketekst: text.lenke2["nb"],
+            destinasjon: tilbakemeldingerUrl,
+          })
+        }
       >
         {text.lenke2[language]}
       </a>
       <a
         href={kontaktOssUrl}
         className={styles.lenke}
-        onClick={() => logEvent("Lenke", "Lenkepanel", text.lenke3["nb"])}
+        onClick={() =>
+          logNavigere({
+            komponent: "Lenke",
+            kategori: "Lenkepanel",
+            lenketekst: text.lenke3["nb"],
+            destinasjon: kontaktOssUrl,
+          })
+        }
       >
         {text.lenke3[language]}
       </a>
