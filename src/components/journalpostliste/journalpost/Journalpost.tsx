@@ -2,7 +2,7 @@ import type { Language } from "@language/language";
 import { ChevronRightIcon } from "@navikt/aksel-icons";
 import { BodyShort, Tag } from "@navikt/ds-react";
 import { baseUrlWithLanguage } from "@src/urls.client";
-import { logEvent } from "@utils/client/analytics";
+import { logNavigere } from "@utils/client/analytics";
 import { setAvsenderMottaker } from "@utils/client/setAvsenderMottaker";
 import { format } from "date-fns";
 import type { JournalpostProps } from "../JournalpostInterfaces";
@@ -33,7 +33,14 @@ const Journalpost = ({ journalpost, language, isValgtRepresentant }: Props) => {
             className={styles.link}
             href={url}
             lang="nb"
-            onClick={() => logEvent("Journalpostlenke", journalpost.temanavn)}
+            onClick={() =>
+              logNavigere({
+                komponent: "Journalpostlenke",
+                kategori: journalpost.temanavn,
+                lenketekst: "Journalpost",
+                destinasjon: url,
+              })
+            }
           >
             <BodyShort
               size="medium"

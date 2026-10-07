@@ -1,6 +1,6 @@
 import type { Language } from "@language/language";
 import { text } from "@language/text";
-import { logEvent } from "@utils/client/analytics";
+import { logNavigere } from "@utils/client/analytics";
 import { lenker, omsorgspengerKontaktOssUrl } from "./Lenker";
 import styles from "./TemaLenke.module.css";
 
@@ -45,7 +45,15 @@ const TemaLenke = ({ lenketekst, temakode, language }: Props) => {
       <a
         href={lenker[type]}
         className={styles.lenke}
-        onClick={() => logEvent("Lenke", "Temalenke", lenketekst)}
+        onClick={() =>
+          lenketekst &&
+          logNavigere({
+            komponent: "Lenke",
+            kategori: "Temalenke",
+            lenketekst,
+            destinasjon: lenker[type],
+          })
+        }
       >
         {lenketekst}
       </a>
@@ -59,7 +67,14 @@ const TemaLenke = ({ lenketekst, temakode, language }: Props) => {
       <a
         href={lenker[type]}
         className={styles.lenke}
-        onClick={() => logEvent("Lenke", "Temalenke", lenketekst)}
+        onClick={() =>
+          logNavigere({
+            komponent: "Lenke",
+            kategori: "Temalenke",
+            lenketekst: text.sykOgSymLenke["nb"],
+            destinasjon: lenker[type],
+          })
+        }
       >
         {text.sykOgSymLenke[language]}
       </a>
@@ -75,7 +90,14 @@ const TemaLenke = ({ lenketekst, temakode, language }: Props) => {
           <a
             href={lenker[type]}
             className={styles.lenke}
-            onClick={() => logEvent("Lenke", "Temalenke", lenketekst)}
+            onClick={() =>
+              logNavigere({
+                komponent: "Lenke",
+                kategori: "Temalenke",
+                lenketekst: text.pleiepengerTitle["nb"],
+                destinasjon: lenker[type],
+              })
+            }
           >
             {text.pleiepengerTitle[language]}
           </a>
@@ -88,7 +110,14 @@ const TemaLenke = ({ lenketekst, temakode, language }: Props) => {
           <a
             href={omsorgspengerKontaktOssUrl}
             className={styles.lenke}
-            onClick={() => logEvent("Lenke", "Temalenke", "Kontakt oss")}
+            onClick={() =>
+              logNavigere({
+                komponent: "Lenke",
+                kategori: "Temalenke",
+                lenketekst: text.temaLenkeOmsKontakteOss["nb"],
+                destinasjon: omsorgspengerKontaktOssUrl,
+              })
+            }
           >
             {text.temaLenkeOmsKontakteOss[language]}
           </a>

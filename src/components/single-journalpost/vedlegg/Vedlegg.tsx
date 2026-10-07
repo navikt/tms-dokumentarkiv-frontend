@@ -4,7 +4,7 @@ import { text } from "@language/text";
 import { ExternalLinkIcon } from "@navikt/aksel-icons";
 import { BodyShort, Detail, Heading } from "@navikt/ds-react";
 import { dokumentUrl } from "@src/urls.client";
-import { logEvent } from "@utils/client/analytics";
+import { logLastNed } from "@utils/client/analytics";
 import { readableFileSize } from "@utils/readableFilesize";
 import styles from "./Vedlegg.module.css";
 
@@ -17,6 +17,7 @@ interface Props {
 interface VedleggslenkeProps {
   url: string;
   tittel: string;
+  filtype: string;
   filstorrelse: number;
   brukerHarTilgang: boolean;
 }
@@ -29,6 +30,7 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
     url,
     tittel,
     brukerHarTilgang,
+    filtype,
     filstorrelse,
   }: VedleggslenkeProps) => {
     const tittelMedPdfTag = tittel + ".pdf";
@@ -40,7 +42,14 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
             href={url}
             className={styles.vedlegg}
             lang="nb"
-            onClick={() => logEvent("Dokumentlenke", "Vedlegg")}
+            onClick={() =>
+              logLastNed({
+                komponent: "Dokumentlenke",
+                tittel: "Vedlegg",
+                type: filtype,
+                kontekst: "Vedlegg",
+              })
+            }
           >
             {tittelMedPdfTag}
           </a>
@@ -69,6 +78,7 @@ const Vedlegg = ({ vedleggsListe, journalpostId, language }: Props) => {
           url={`${baseUrl}/${vedlegg.dokumentInfoId}`}
           tittel={vedlegg.tittel}
           brukerHarTilgang={vedlegg.brukerHarTilgang}
+          filtype={vedlegg.filtype}
           filstorrelse={vedlegg.filstorrelse}
           key={vedlegg.dokumentInfoId}
         />
