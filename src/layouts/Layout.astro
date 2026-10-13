@@ -1,5 +1,6 @@
 ---
 import type { Language } from "@language/language";
+import { renderNaisMetaTags } from "@nais/apm";
 import type { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { baseUrlWithLanguage } from "@src/urls";
@@ -63,6 +64,12 @@ const {
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <Fragment set:html={renderNaisMetaTags()} />
+    <script>
+      import { initializeObservability } from "@utils/client/observability";
+
+      initializeObservability();
+    </script>
     <title>Dokumenter - nav.no</title>
     <link
       rel="preload"

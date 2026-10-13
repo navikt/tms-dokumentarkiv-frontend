@@ -1,5 +1,6 @@
 import { postUserUrl } from "@src/urls.client.ts";
 import { setIsError } from "@store/store";
+import { captureClientException } from "./observability";
 import { redirectToIdPorten } from "./redirect";
 
 interface eventObjectProps {
@@ -18,16 +19,26 @@ export const include = {
 };
 
 export const fetcher = async (url: string) => {
-  const response = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+  } catch (error) {
+    captureClientException(error, "fetch-api-data");
+    throw error;
+  }
 
   if (!response.ok) {
     if (response.status === 404) {
       throw new NotFoundError("Document not found");
     }
-    throw new Error("Get request failed");
+
+    const error = new Error("Get request failed");
+    captureClientException(error, "fetch-api-data", response.status);
+    throw error;
   }
 
   return await response.json();
@@ -47,8 +58,14 @@ export const postUser = async (ident: eventObjectProps) => {
   if (!response.ok) {
     if (response.status === 401) {
       redirectToIdPorten();
+      return;
     }
+
+    captureClientException(
+      new Error("Post request failed"),
+      "select-represented-user",
+      response.status,
+    );
     setIsError(true);
-    //throw new Error("Post request failed");
   }
 };
