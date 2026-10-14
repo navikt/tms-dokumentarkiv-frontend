@@ -51,7 +51,7 @@
     "jsdom": "30.0.1",
     "lint-staged": "16.4.0",
     "typescript": "5.3.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "lint-staged": {
     "*.{astro,js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
