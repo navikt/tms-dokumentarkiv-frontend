@@ -1,4 +1,4 @@
-FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-slim@sha256:87f0526f62cc7f5d0de01a024a99bcbb83b2e655bd3013c4828ab86e1914984e
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-slim@sha256:180a66d1c00e29058241bee04e42a27fc14e77c30be9ee68ace195f384ce6f0a
 
 WORKDIR usr/src/app
 COPY ./dist ./dist
