@@ -12,7 +12,7 @@ Dette repoet inneholder Dokumentarkiv på Min side. Innloggede brukere kan:
 
 - se og filtrere dokumenter de har sendt til eller mottatt fra Nav
 - åpne dokumenter og vedlegg
-- se dokumenter på vegne av personer de har digital fullmakt for
+- se dokumenter på vegne av personer de har digital fullmakt for eller er verge for
 - bruke tjenesten på bokmål, nynorsk eller engelsk
 
 Applikasjonen er en serverrendret Astro-frontend med React-komponenter og Aksel. Brukerne autentiseres med ID-porten.
@@ -34,14 +34,14 @@ flowchart LR
 
 ### [mine-saker-api](https://github.com/navikt/mine-saker-api)
 
-Leverer dokumenter, vedlegg og informasjon om digitale fullmakter.
+Leverer dokumenter, vedlegg og informasjon om digitale fullmakter og vergemål.
 
 - **GET** `/v2/journalposter/alle`
 - **GET** `/v2/journalposter/journalpost/{journalpostId}`
 - **GET** `/dokument/{journalpostId}/{dokumentInfoId}`
-- **GET** `/fullmakt/forhold`
-- **GET** `/fullmakt/info`
-- **POST** `/fullmakt/representert`
+- **GET** `/repr/forhold`
+- **GET** `/repr/info`
+- **POST** `/repr/representert`
 
 ## Utvikling
 

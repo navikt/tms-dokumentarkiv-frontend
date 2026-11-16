@@ -13,6 +13,7 @@ export class DokumentarkivPage {
   readonly main: Locator;
   readonly heading: Locator;
   readonly breadcrumb: Locator;
+  readonly representasjonSelect: Locator;
 
   constructor(
     private readonly page: Page,
@@ -21,6 +22,9 @@ export class DokumentarkivPage {
     this.main = page.getByRole("main");
     this.heading = this.main.getByRole("heading", { level: 1 });
     this.breadcrumb = this.main.getByRole("navigation");
+    this.representasjonSelect = this.main.getByRole("combobox", {
+      name: "Hvem vil du bruke dokumentarkivet på vegne av?",
+    });
   }
 
   private path(): string {

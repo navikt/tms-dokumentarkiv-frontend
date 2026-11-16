@@ -58,6 +58,42 @@ test.describe("Dokumentarkiv-forsiden", () => {
   });
 });
 
+test.describe("Representasjon", () => {
+  test("viser fullmakter og vergemål i nedtrekkslisten", async ({ page }) => {
+    const dokumentarkiv = new DokumentarkivPage(page);
+    await dokumentarkiv.goto();
+
+    await expect(
+      dokumentarkiv.representasjonSelect.getByRole("option"),
+    ).toHaveText([
+      "Dag Helge Daghelgesen (Deg)",
+      "Sergio Sergiozen (fullmakt)",
+      "Amir Amiresen (fullmakt)",
+      "Vera Vergehaversen (vergemål)",
+    ]);
+  });
+
+  test("sender ident og type når et vergemål velges", async ({ page }) => {
+    const dokumentarkiv = new DokumentarkivPage(page);
+    await dokumentarkiv.goto();
+    await expect(dokumentarkiv.representasjonSelect).toBeVisible();
+
+    const request = page.waitForRequest(
+      (request) =>
+        request.method() === "POST" &&
+        request.url().endsWith("/mine-saker-api/repr/representert"),
+    );
+    await dokumentarkiv.representasjonSelect.selectOption({
+      label: "Vera Vergehaversen (vergemål)",
+    });
+
+    expect((await request).postDataJSON()).toEqual({
+      ident: "567890123",
+      type: "Verge",
+    });
+  });
+});
+
 test.describe("Språkstøtte", () => {
   test("viser engelsk innhold på /en", async ({ page }) => {
     const dokumentarkiv = new DokumentarkivPage(page, "en");
