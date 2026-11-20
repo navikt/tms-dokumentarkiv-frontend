@@ -17,5 +17,5 @@ jobs:
     uses: navikt/tms-deploy/.github/workflows/astro-deploy-v1.yaml@main
     with:
       app-name: "tms-dokumentarkiv"
-      clusters: '["dev-gcp", "prod-gcp"]'
+      clusters: '["prod-gcp"]'
     secrets: inherit
