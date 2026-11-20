@@ -4,11 +4,20 @@
   "fullmaktsGivere": [
     {
       "navn": "Sergio Sergiozen",
-      "ident": "12345"
+      "ident": "12345",
+      "type": "Fullmakt"
     },
     {
       "navn": "Amir Amiresen",
-      "ident": "345678901"
+      "ident": "345678901",
+      "type": "Fullmakt"
+    }
+  ],
+  "verger": [
+    {
+      "navn": "Vera Vergehaversen",
+      "ident": "567890123",
+      "type": "Verge"
     }
   ]
 }

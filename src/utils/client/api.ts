@@ -4,6 +4,7 @@ import { redirectToIdPorten } from "./redirect";
 
 interface eventObjectProps {
   ident: string;
+  type?: string;
 }
 
 export class NotFoundError extends Error {

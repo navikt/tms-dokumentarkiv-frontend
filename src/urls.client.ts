@@ -32,9 +32,9 @@ export const mineSakerApiUrl = MINE_SAKER_API_URL[getEnvironmentClientSide()];
 export const authenticationUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/login/status`;
 export const getSakstemaerUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/sakstemaer`;
 export const dokumentUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/dokument`;
-export const getFullmaktForhold = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/fullmakt/forhold`;
-export const postUserUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/fullmakt/representert`;
-export const getFullmaktInfoUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/fullmakt/info`;
+export const getFullmaktForhold = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/repr/forhold`;
+export const postUserUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/repr/representert`;
+export const getFullmaktInfoUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/repr/info`;
 export const hasDigisosContentUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/v2/sosialhjelp/har_innsendte`;
 
 export const baseUrl = BASE_URL[getEnvironmentClientSide()];
