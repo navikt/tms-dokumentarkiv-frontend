@@ -4,6 +4,7 @@ const MINE_SAKER_API_URL = {
   local: "http://localhost:4321/mine-saker-api",
   dev: "https://www.intern.dev.nav.no/mine-saker-api",
   ansatt: "https://www.ansatt.dev.nav.no/mine-saker-api",
+  staging: `${window.location.origin}/mine-saker-api`,
   prod: "https://person.nav.no/mine-saker-api",
 };
 
@@ -11,6 +12,7 @@ const BASE_URL = {
   local: "http://localhost:4321",
   dev: "https://www.intern.dev.nav.no",
   ansatt: "https://www.ansatt.dev.nav.no",
+  staging: "https://www.ansatt.dev.nav.no",
   prod: "https://www.nav.no",
 };
 
@@ -18,6 +20,7 @@ const BASE_URL_INTERN = {
   local: "http://localhost:4321",
   dev: "https://www.intern.dev.nav.no",
   ansatt: "https://www.intern.dev.nav.no",
+  staging: "https://www.intern.dev.nav.no",
   prod: "https://www.intern.nav.no",
 };
 
@@ -25,8 +28,14 @@ const DIGISOS_URL = {
   local: "http://localhost:4321/sosialhjelp/innsyn",
   dev: "https://www-q0.dev.nav.no/sosialhjelp/innsyn/",
   ansatt: "https://www-q0.dev.nav.no/sosialhjelp/innsyn/",
+  staging: "https://www-q0.dev.nav.no/sosialhjelp/innsyn/",
   prod: "https://www.nav.no/sosialhjelp/innsyn/",
 };
+
+const appBaseUrl =
+  getEnvironmentClientSide() === "staging"
+    ? window.location.origin
+    : BASE_URL[getEnvironmentClientSide()];
 
 export const mineSakerApiUrl = MINE_SAKER_API_URL[getEnvironmentClientSide()];
 export const authenticationUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/login/status`;
@@ -40,7 +49,7 @@ export const hasDigisosContentUrl = `${MINE_SAKER_API_URL[getEnvironmentClientSi
 export const baseUrl = BASE_URL[getEnvironmentClientSide()];
 export const internBaseUrl = BASE_URL_INTERN[getEnvironmentClientSide()];
 export const minSideUrl = `${BASE_URL[getEnvironmentClientSide()]}/minside`;
-export const dokumentArkivUrl = `${BASE_URL[getEnvironmentClientSide()]}/dokumentarkiv`;
+export const dokumentArkivUrl = `${appBaseUrl}/dokumentarkiv`;
 export const pdlFullmaktUrl = `${BASE_URL[getEnvironmentClientSide()]}/person/pdl-fullmakt-ui/`;
 export const digisosUrl = DIGISOS_URL[getEnvironmentClientSide()];
 export const kontaktOssUrl = `${BASE_URL[getEnvironmentClientSide()]}/kontaktoss`;
@@ -52,9 +61,9 @@ export const getJournalpostUrl = (journalpostId: string) =>
   `${MINE_SAKER_API_URL[getEnvironmentClientSide()]}/v2/journalposter/journalpost/${journalpostId}`;
 
 export const baseUrlWithLanguage = {
-  nb: `${baseUrl}/dokumentarkiv/nb`,
-  en: `${baseUrl}/dokumentarkiv/en`,
-  nn: `${baseUrl}/dokumentarkiv/nn`,
+  nb: `${appBaseUrl}/dokumentarkiv/nb`,
+  en: `${appBaseUrl}/dokumentarkiv/en`,
+  nn: `${appBaseUrl}/dokumentarkiv/nn`,
 };
 
 export const minSideUrlWithLanguage = {
