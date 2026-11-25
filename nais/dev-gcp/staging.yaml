@@ -1,0 +1,64 @@
+# Staging-slotten (se navikt/tms-deploy docs/staging). Hold i takt med nais.yaml.
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: tms-dokumentarkiv-staging
+  namespace: min-side
+  labels:
+    team: min-side
+spec:
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
+      level: idporten-loa-high
+  tokenx:
+    enabled: true
+  image: {{ image }}
+  port: 3000
+  liveness:
+    path: /dokumentarkiv/api/internal/isAlive
+    initialDelay: 10
+  readiness:
+    path: /dokumentarkiv/api/internal/isReady
+    initialDelay: 10
+  prometheus:
+    enabled: true
+    path: /dokumentarkiv/api/internal/metrics
+  replicas:
+    min: 1
+    max: 1
+  accessPolicy:
+    outbound:
+      rules:
+        - application: nav-dekoratoren
+          namespace: personbruker
+  ingresses:
+    - "https://min-side-staging.ansatt.dev.nav.no/dokumentarkiv"
+  resources:
+    limits:
+      memory: 768Mi
+    requests:
+      cpu: "20m"
+      memory: 128Mi
+  env:
+    - name: REDIRECT_URI
+      value: "https://min-side-staging.ansatt.dev.nav.no/dokumentarkiv"
+    - name: STAGING_SLOT
+      value: "true"
+    - name: STAGING_PR
+      value: "{{ stagingPr }}"
+    - name: STAGING_TITLE
+      value: "{{ stagingTitle }}"
+    - name: STAGING_PR_URL
+      value: "{{ stagingPrUrl }}"
+    - name: STAGING_BUILT_AT
+      value: "{{ stagingBuiltAt }}"
+    - name: STAGING_MAIN_SHA
+      value: "{{ stagingMainSha }}"
+    - name: STAGING_ORIGIN
+      value: "https://min-side-staging.ansatt.dev.nav.no"
