@@ -52,3 +52,5 @@ Kjør `pnpm run` for en oppdatert oversikt over kommandoer for utvikling, byggin
 ## For Nav-ansatte
 
 Spørsmål kan stilles i [#team-minside på Slack](https://nav-it.slack.com/app_redirect?channel=team-minside).
+
+Denne linjen er bare for å teste staging-appen.
