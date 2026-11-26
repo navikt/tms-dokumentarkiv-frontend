@@ -29,7 +29,9 @@ export const minSideUrl = `${NAV_NO_URL[getEnvironment()]}/minside`;
 export const minSideProxyUrl = MIN_SIDE_PROXY_URL[getEnvironment()];
 export const errorReportingUrl = ERROR_REPORTING_URL[getEnvironment()];
 export const navNoUrl = NAV_NO_URL[getEnvironment()];
-export const baseUrl = BASE_URL[getEnvironment()];
+export const baseUrl = process.env.STAGING_ORIGIN
+  ? `${process.env.STAGING_ORIGIN}/dokumentarkiv`
+  : BASE_URL[getEnvironment()];
 export const tilbakemeldingerUrl =
   "https://www.nav.no/person/kontakt-oss/tilbakemeldinger";
 export const saksbehandlingstiderUrl =

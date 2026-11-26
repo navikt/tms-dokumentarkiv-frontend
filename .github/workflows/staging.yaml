@@ -1,0 +1,40 @@
+name: Staging
+on:
+  pull_request:
+    types: [labeled, synchronize, reopened]
+  pull_request_target:
+    types: [labeled, unlabeled, closed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+  pull-requests: write
+  issues: write
+  deployments: write
+  actions: write
+jobs:
+  staging:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name != 'workflow_dispatch' &&
+       !(github.event_name == 'pull_request_target' && github.event.action == 'labeled') &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       github.event.pull_request.user.type != 'Bot' &&
+       (github.event.label.name == 'staging' ||
+        (github.event.action != 'labeled' && github.event.action != 'unlabeled' &&
+         contains(github.event.pull_request.labels.*.name, 'staging'))))
+    uses: navikt/tms-deploy/.github/workflows/staging-v1.yaml@staging-v1
+    with:
+      app-name: tms-dokumentarkiv
+      staging-app: tms-dokumentarkiv-staging
+      staging-url: https://min-side-staging.ansatt.dev.nav.no/dokumentarkiv
+      display-name: Dokumentarkiv
+    secrets: inherit
+  staging-konflikt:
+    if: >-
+      github.event_name == 'pull_request_target' && github.event.action == 'labeled' &&
+      github.event.label.name == 'staging' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.type != 'Bot'
+    uses: navikt/tms-deploy/.github/workflows/staging-conflict-v1.yaml@staging-v1
