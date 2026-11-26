@@ -2,8 +2,10 @@
 import type { Language } from "@language/language";
 import type { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
+import StagingBanner from "@src/components/staging/StagingBanner";
 import { baseUrlWithLanguage } from "@src/urls";
 import { getEnvironment } from "../utils/server/environment";
+import { readStagingInfo } from "../utils/server/staging";
 import styles from "./Layout.module.css";
 
 const currentLocale: Language = Astro.currentLocale as Language;
@@ -77,6 +79,7 @@ const {
   </head>
   <body class="main">
     <Fragment set:html={DECORATOR_HEADER} />
+    <StagingBanner info={readStagingInfo()} />
     <main class={styles.container} id="maincontent">
       <slot />
     </main>
