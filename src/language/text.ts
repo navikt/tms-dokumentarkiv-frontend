@@ -52,6 +52,16 @@ export const text = {
     nn: " (Deg)",
     en: " (You)",
   },
+  representasjonFullmakt: {
+    nb: " (fullmakt)",
+    nn: " (fullmakt)",
+    en: " (power of attorney)",
+  },
+  representasjonVergemal: {
+    nb: " (vergemål)",
+    nn: " (verjemål)",
+    en: " (guardianship)",
+  },
   representasjonLenkeTekst: {
     nb: "Se digitale fullmakter",
     nn: "Sjå digitale fullmakter",

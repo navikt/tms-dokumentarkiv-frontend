@@ -22,19 +22,24 @@ import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
 import styles from "./SelectFullmakt.module.css";
 
+type Representasjonstype = "Fullmakt" | "Verge";
+
 type fullmaktsGiverConfig = {
   navn: string;
   ident: string;
+  type: Representasjonstype;
 };
 
 export interface Fullmakter {
   navn: string;
   ident: string;
   fullmaktsGivere: Array<fullmaktsGiverConfig>;
+  verger: Array<fullmaktsGiverConfig>;
 }
 
 export interface FullmaktInfoProps {
   viserRepresentertesData: boolean;
+  forholdstype: Representasjonstype | null;
   representertNavn: string;
   representertIdent: string;
 }
@@ -79,7 +84,8 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
   }, [fullmaktInfo]);
 
   const handleSelectChange = async (event: ChangeEvent<HTMLSelectElement>) => {
-    await postUser({ ident: event.target.value });
+    const [ident, type] = event.target.value.split(":");
+    await postUser({ ident, type });
     mutateJournalposter();
     mutateUser();
   };
@@ -94,8 +100,10 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
   }
 
   const hasFullmakter = fullmakter && fullmakter.fullmaktsGivere.length > 0;
+  const hasVerger = fullmakter && fullmakter.verger.length > 0;
+  const hasRepresenterte = hasFullmakter || hasVerger;
 
-  if (!hasFullmakter) {
+  if (!hasRepresenterte) {
     return (
       <BodyShort size="medium" className={styles.heading} aria-live="polite">
         {text.representasjonStandardTekst[language] + fullmakter?.navn + ". "}
@@ -127,8 +135,19 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
     };
     let nedtrekksliste = [originalUser];
 
-    fullmakter?.fullmaktsGivere?.map((fullmaktsGiver) => {
-      const user = { navn: fullmaktsGiver.navn, ident: fullmaktsGiver.ident };
+    fullmakter?.fullmaktsGivere?.forEach((fullmaktsGiver) => {
+      const user = {
+        navn: fullmaktsGiver.navn + text.representasjonFullmakt[language],
+        ident: `${fullmaktsGiver.ident}:${fullmaktsGiver.type}`,
+      };
+      nedtrekksliste = [...nedtrekksliste, user];
+    });
+
+    fullmakter?.verger?.forEach((vergehaver) => {
+      const user = {
+        navn: vergehaver.navn + text.representasjonVergemal[language],
+        ident: `${vergehaver.ident}:${vergehaver.type}`,
+      };
       nedtrekksliste = [...nedtrekksliste, user];
     });
 
@@ -139,15 +158,15 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
 
   return (
     <>
-      {hasFullmakter ? (
+      {hasRepresenterte ? (
         <div className={styles.container}>
           <Select
             className={styles.select}
             label={text.representasjonLabel[language]}
             value={
-              fullmaktInfo?.representertIdent === null
-                ? ""
-                : fullmaktInfo?.representertIdent
+              fullmaktInfo?.representertIdent
+                ? `${fullmaktInfo.representertIdent}:${fullmaktInfo.forholdstype}`
+                : ""
             }
             onChange={handleSelectChange}
             onClick={() =>
@@ -165,20 +184,22 @@ const SelectFullmakt = ({ language }: { language: Language }) => {
                 </option>
               ))}
           </Select>
-          <a
-            href={pdlFullmaktUrl}
-            className={styles.lenke}
-            onClick={() =>
-              logNavigere({
-                komponent: "Lenke",
-                kategori: "Digital fullmakt innsynslenke",
-                lenketekst: text.representasjonLenkeTekst["nb"],
-                destinasjon: pdlFullmaktUrl,
-              })
-            }
-          >
-            {text.representasjonLenkeTekst[language]}
-          </a>
+          {hasFullmakter && (
+            <a
+              href={pdlFullmaktUrl}
+              className={styles.lenke}
+              onClick={() =>
+                logNavigere({
+                  komponent: "Lenke",
+                  kategori: "Digital fullmakt innsynslenke",
+                  lenketekst: text.representasjonLenkeTekst["nb"],
+                  destinasjon: pdlFullmaktUrl,
+                })
+              }
+            >
+              {text.representasjonLenkeTekst[language]}
+            </a>
+          )}
         </div>
       ) : null}
       {fullmaktInfo?.viserRepresentertesData && (
