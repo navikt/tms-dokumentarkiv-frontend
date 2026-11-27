@@ -4,7 +4,7 @@ const MINE_SAKER_API_URL = {
   local: "http://localhost:4321/mine-saker-api",
   dev: "https://www.intern.dev.nav.no/mine-saker-api",
   ansatt: "https://www.ansatt.dev.nav.no/mine-saker-api",
-  staging: `${window.location.origin}/mine-saker-api`,
+  staging: "https://www.ansatt.dev.nav.no/mine-saker-api",
   prod: "https://person.nav.no/mine-saker-api",
 };
 
