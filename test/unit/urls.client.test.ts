@@ -35,10 +35,10 @@ describe("urls.client on staging", () => {
     const { urls } = await loadOnStaging();
 
     expect(urls.mineSakerApiUrl).toBe(
-      "https://www.ansatt.dev.nav.no/mine-saker-api",
+      "https://min-side-staging.ansatt.dev.nav.no/mine-saker-api",
     );
     expect(urls.getSakstemaerUrl).toBe(
-      "https://www.ansatt.dev.nav.no/mine-saker-api/sakstemaer",
+      "https://min-side-staging.ansatt.dev.nav.no/mine-saker-api/sakstemaer",
     );
   });
 
